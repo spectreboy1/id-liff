@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Redirecting to ThaiD...</title>
+    <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+    <script>
+        async function initLiff() {
+            try {
+                // ใส่ LIFF ID ที่คุณสร้างจาก LINE Developers Console
+                await liff.init({ liffId: "YOUR_LIFF_ID_HERE" });
+                
+                // ดึงค่า ?link= จาก URL
+                const urlParams = new URLSearchParams(window.location.search);
+                const targetLink = urlParams.get('link');
+
+                if (targetLink) {
+                    // สั่งเปิดแอป ThaiD ทันที
+                    window.location.href = targetLink;
+                    
+                    // ปิดหน้าต่าง LIFF หลังจาก 2 วินาที (เพื่อให้แอปเด้งขึ้นมาก่อน)
+                    setTimeout(() => { liff.closeWindow(); }, 2000);
+                } else {
+                    document.body.innerHTML = "<h1>ไม่พบลิงก์ยืนยันตัวตน</h1>";
+                }
+            } catch (err) {
+                console.error("LIFF Init Error", err);
+            }
+        }
+        window.onload = initLiff;
+    </script>
+</head>
+<body style="text-align: center; font-family: sans-serif; padding-top: 50px;">
+    <h2>กำลังนำคุณไปที่แอป ThaiD</h2>
+    <p>กรุณารอสักครู่...</p>
+</body>
+</html>
